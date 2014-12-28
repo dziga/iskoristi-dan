@@ -48,8 +48,7 @@ public class FilesController extends Controller {
 	
 	public static void removeImage(String remove) throws IOException {
 		try {
-			FileUtils.deleteDirectory(new File("/".concat(remove)));
-			
+			FileUtils.forceDelete(new File(remove));
 		} catch (IOException e) {
 			Logger.error(e.getMessage());
 			throw new IOException("Problem while deleting image from filesystem");
