@@ -4,79 +4,96 @@
 # --- !Ups
 
 create table activity (
-  id                        bigint auto_increment not null,
+  id                        bigint not null,
   name                      varchar(255),
-  description               longtext,
-  start_time                datetime,
-  end_time                  datetime,
-  image_url                 varchar(255),
-  active                    tinyint(1) default 0,
+  type_id                   bigint,
+  active                    boolean,
   constraint uq_activity_name unique (name),
   constraint pk_activity primary key (id))
 ;
 
-create table category (
-  id                        bigint auto_increment not null,
+create table activity_type (
+  id                        bigint not null,
   name                      varchar(255),
-  type_id                   bigint,
-  constraint uq_category_name unique (name),
-  constraint pk_category primary key (id))
+  constraint uq_activity_type_name unique (name),
+  constraint pk_activity_type primary key (id))
 ;
 
-create table category_type (
-  id                        bigint auto_increment not null,
+create table recommendation (
+  id                        bigint not null,
   name                      varchar(255),
-  constraint uq_category_type_name unique (name),
-  constraint pk_category_type primary key (id))
+  description               clob,
+  start_time                timestamp,
+  end_time                  timestamp,
+  image_url                 varchar(255),
+  active                    boolean,
+  constraint uq_recommendation_name unique (name),
+  constraint pk_recommendation primary key (id))
 ;
 
 create table tag (
-  id                        bigint auto_increment not null,
+  id                        bigint not null,
   name                      varchar(255),
   constraint uq_tag_name unique (name),
   constraint pk_tag primary key (id))
 ;
 
 
+create table activity_recommendation (
+  activity_id                    bigint not null,
+  recommendation_id              bigint not null,
+  constraint pk_activity_recommendation primary key (activity_id, recommendation_id))
+;
+
 create table activity_tag (
   activity_id                    bigint not null,
   tag_id                         bigint not null,
   constraint pk_activity_tag primary key (activity_id, tag_id))
 ;
+create sequence activity_seq;
 
-create table category_activity (
-  category_id                    bigint not null,
-  activity_id                    bigint not null,
-  constraint pk_category_activity primary key (category_id, activity_id))
-;
-alter table category add constraint fk_category_type_1 foreign key (type_id) references category_type (id) on delete restrict on update restrict;
-create index ix_category_type_1 on category (type_id);
+create sequence activity_type_seq;
+
+create sequence recommendation_seq;
+
+create sequence tag_seq;
+
+alter table activity add constraint fk_activity_type_1 foreign key (type_id) references activity_type (id) on delete restrict on update restrict;
+create index ix_activity_type_1 on activity (type_id);
 
 
+
+alter table activity_recommendation add constraint fk_activity_recommendation_ac_01 foreign key (activity_id) references activity (id) on delete restrict on update restrict;
+
+alter table activity_recommendation add constraint fk_activity_recommendation_re_02 foreign key (recommendation_id) references recommendation (id) on delete restrict on update restrict;
 
 alter table activity_tag add constraint fk_activity_tag_activity_01 foreign key (activity_id) references activity (id) on delete restrict on update restrict;
 
 alter table activity_tag add constraint fk_activity_tag_tag_02 foreign key (tag_id) references tag (id) on delete restrict on update restrict;
 
-alter table category_activity add constraint fk_category_activity_category_01 foreign key (category_id) references category (id) on delete restrict on update restrict;
-
-alter table category_activity add constraint fk_category_activity_activity_02 foreign key (activity_id) references activity (id) on delete restrict on update restrict;
-
 # --- !Downs
 
-SET FOREIGN_KEY_CHECKS=0;
+SET REFERENTIAL_INTEGRITY FALSE;
 
-drop table activity;
+drop table if exists activity;
 
-drop table activity_tag;
+drop table if exists activity_recommendation;
 
-drop table category;
+drop table if exists activity_tag;
 
-drop table category_activity;
+drop table if exists activity_type;
 
-drop table category_type;
+drop table if exists recommendation;
 
-drop table tag;
+drop table if exists tag;
 
-SET FOREIGN_KEY_CHECKS=1;
+SET REFERENTIAL_INTEGRITY TRUE;
+
+drop sequence if exists activity_seq;
+
+drop sequence if exists activity_type_seq;
+
+drop sequence if exists recommendation_seq;
+
+drop sequence if exists tag_seq;
 

@@ -8,7 +8,7 @@ import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
 @Entity
-public class CategoryType extends Model {
+public class ActivityType extends Model {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -17,7 +17,7 @@ public class CategoryType extends Model {
 	@Column(unique = true)
 	public String name;
 	
-	public static Finder<Long,CategoryType> find = new Finder<Long,CategoryType>(
-			Long.class, CategoryType.class
+	public static Finder<Long,ActivityType> find = new Finder<Long,ActivityType>(
+			Long.class, ActivityType.class
     );
 }

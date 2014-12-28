@@ -6,18 +6,30 @@
 GET     /                           controllers.ApplicationController.index()
 
 #Activities
-POST    /activities					controllers.ActivityController.addActivity()
-GET		/activities					controllers.ActivityController.getActivities()
-GET		/activities/:id				controllers.ActivityController.getActivity(id: Long)
-PUT     /activities/:id				controllers.ActivityController.updateActivity(id: Long)
-DELETE  /activities/:id				controllers.ActivityController.deleteActivity(id: Long)
-POST  	/activities/upload			controllers.ActivityController.upload()
+POST    /activities							controllers.ActivityController.addActivity()
+GET		/activities							controllers.ActivityController.getActivities()
+GET		/activities/:id						controllers.ActivityController.getActivity(id: Long)
+PUT     /activities/:id						controllers.ActivityController.updateActivity(id: Long)
+DELETE  /activities/:id						controllers.ActivityController.deleteActivity(id: Long)
+POST  	/activities/upload					controllers.ActivityController.uploadImages()
+GET		/activities/:id/recommendations		controllers.ActivityController.getRecommendations(id: Long)
 
-#Categories
-POST	/categories					controllers.CategoryController.addCategory()
-GET		/categories					controllers.CategoryController.getCategories()
-GET		/categories/:id				controllers.CategoryController.getCategory(id: Long)
-PUT		/categories/:id				controllers.CategoryController.updateCategory(id: Long)
+#Recommendations
+POST	/recommendations			controllers.RecommendationController.addRecommendation()
+GET		/recommendations			controllers.RecommendationController.getRecommendations()
+GET		/recommendations/:id		controllers.RecommendationController.getRecommendation(id: Long)
+PUT		/recommendations/:id		controllers.RecommendationController.updateRecommendation(id: Long)
+POST  	/recommendations/upload		controllers.RecommendationController.uploadImages()
+
+#Activity types
+POST    /activity-types				controllers.ActivityTypeController.addActivityType()
+GET		/activity-types				controllers.ActivityTypeController.getActivityTypes()
+GET		/activity-types/:id			controllers.ActivityTypeController.getActivityType(id: Long)
+PUT     /activity-types/:id			controllers.ActivityTypeController.updateActivityType(id: Long)
+DELETE  /activity-types/:id			controllers.ActivityTypeController.deleteActivityType(id: Long)
+
+
+
 #Tags
 GET		/tags						controllers.TagController.getTags(q ?= null)
 
