@@ -8,15 +8,14 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
