@@ -37,9 +37,6 @@ public class Activity extends Model {
 	public String imageUrl;
 	@ManyToMany(cascade = CascadeType.ALL)
 	public List<Tag> tags;
-	@ManyToOne(cascade = CascadeType.ALL)
-	@Required
-	public Category category;
 	public boolean active;
 	
 	public static Finder<Long,Activity> find = new Finder<Long,Activity>(

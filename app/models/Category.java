@@ -7,8 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
@@ -25,7 +25,7 @@ public class Category extends Model {
 	@Required
 	@Column(unique = true)
 	public String name;
-	@OneToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL)
 	public List<Activity> activities;
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@Required
