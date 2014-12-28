@@ -33,6 +33,8 @@ public class Activity extends Model {
 	@ManyToMany(cascade = CascadeType.ALL)
 	public List<Tag> tags;
 	public boolean active;
+	@ManyToMany(cascade = CascadeType.ALL)
+	public List<Image> images;
 	
 	public Activity(Long id, String name) {
 		this.id = id;

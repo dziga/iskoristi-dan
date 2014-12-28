@@ -11,7 +11,8 @@ GET		/activities							controllers.ActivityController.getActivities()
 GET		/activities/:id						controllers.ActivityController.getActivity(id: Long)
 PUT     /activities/:id						controllers.ActivityController.updateActivity(id: Long)
 DELETE  /activities/:id						controllers.ActivityController.deleteActivity(id: Long)
-POST  	/activities/upload					controllers.ActivityController.uploadImages()
+POST  	/activities/:id/upload				controllers.ActivityController.uploadImages(id: Long)
+DELETE 	/activities/:id/remove-image/:image	controllers.ActivityController.removeImage(id: Long, image: Long)
 GET		/activities/:id/recommendations		controllers.ActivityController.getRecommendations(id: Long)
 
 #Recommendations
@@ -19,7 +20,7 @@ POST	/recommendations			controllers.RecommendationController.addRecommendation()
 GET		/recommendations			controllers.RecommendationController.getRecommendations()
 GET		/recommendations/:id		controllers.RecommendationController.getRecommendation(id: Long)
 PUT		/recommendations/:id		controllers.RecommendationController.updateRecommendation(id: Long)
-POST  	/recommendations/upload		controllers.RecommendationController.uploadImages()
+POST  	/recommendations/:id/upload	controllers.RecommendationController.uploadImages(id: Long)
 
 #Activity types
 POST    /activity-types				controllers.ActivityTypeController.addActivityType()

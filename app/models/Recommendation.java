@@ -1,9 +1,13 @@
 package models;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
@@ -29,7 +33,8 @@ public class Recommendation extends Model {
 	public Duration duration;
 	public DateTime startTime;
 	public DateTime endTime;
-	public String imageUrl;
+	@ManyToMany(cascade = CascadeType.ALL)
+	public List<Image> images;
 	public boolean active;
 	
 	public static Finder<Long,Recommendation> find = new Finder<Long,Recommendation>(

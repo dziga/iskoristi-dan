@@ -1,13 +1,16 @@
 package controllers;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import models.Activity;
 import models.ActivityType;
+import models.Image;
 import models.Recommendation;
 import models.Tag;
 import play.Logger;
+import play.Play;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -51,8 +54,42 @@ public class ActivityController extends Controller {
 		return ok();
 	}
 	
-	public static Result uploadImages() {
-		 return FilesController.uploadImages("dir.images.activities");
+	public static Result uploadImages(Long id) {
+		Activity activity = Activity.find.byId(id);
+		if (activity==null) {
+			return notFound("Activity not found during upload image request");
+		}
+		try {
+			List<String> urls = FilesController.uploadImages(request().body().asMultipartFormData(), 
+					Play.application().configuration().getString("dir.images.activities"));
+			for (String url: urls) {
+				activity.images.add(new Image(url));
+			}
+			activity.update();
+		} catch (IOException e) {
+			return internalServerError("Problem occured while uploading images");
+		}
+		return ok();
+	}
+	
+	public static Result removeImage(Long id, Long image) {
+		Activity activity = Activity.find.byId(id);
+		if (activity == null) {
+			return notFound("Activity not found in remove image request");
+		}
+		Image img = Image.find.byId(image);
+		if (img == null) {
+			return notFound("Image not found in remove image request");
+		}
+		try {
+			FilesController.removeImage(img.url);
+		} catch (IOException e) {
+			return internalServerError("Problem occured while trying to remove image from activity");
+		}
+		activity.images.remove(img);
+		activity.update();
+		img.delete();
+		return ok();
 	}
 	
 	public static Result getRecommendations(Long id) {

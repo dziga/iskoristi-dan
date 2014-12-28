@@ -1,9 +1,12 @@
 package controllers;
 
+import java.io.IOException;
 import java.util.List;
 
 import models.Activity;
+import models.Image;
 import models.Recommendation;
+import play.Play;
 import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
@@ -56,8 +59,22 @@ public class RecommendationController extends Controller {
 		return ok();
 	}
 	
-	public static Result uploadImages() {
-		 return FilesController.uploadImages("dir.images.recommendations");
+	public static Result uploadImages(Long id) {
+			Recommendation recommendation = Recommendation.find.byId(id);
+			if (recommendation==null) {
+				return notFound("Activity not found during upload image request");
+			}
+			try {
+				List<String> urls = FilesController.uploadImages(request().body().asMultipartFormData(), 
+						Play.application().configuration().getString("dir.images.recommendation"));
+				for (String url: urls) {
+					recommendation.images.add(new Image(url));
+				}
+				recommendation.update();
+			} catch (IOException e) {
+				return internalServerError("Problem occured while uploading images");
+			}
+			return ok();
 	}
 	
 	private static Result upsertRecommendation(Long id) {
