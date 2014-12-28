@@ -2,7 +2,6 @@ package controllers;
 
 import java.util.List;
 
-import models.Activity;
 import models.Category;
 import models.CategoryType;
 import play.Logger;
@@ -24,7 +23,7 @@ public class CategoryController extends Controller {
 		if(category==null) {
 			return notFound("Category not found");
 		}
-		category.activities = Activity.find.where().eq("category_id", id).findList();
+		category.type = CategoryType.find.byId(category.type.id);
 		return ok(Json.toJson(category));
 	}
 	

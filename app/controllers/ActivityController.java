@@ -100,20 +100,28 @@ public class ActivityController extends Controller {
 			ObjectMapper mapper = new ObjectMapper();
 			mapper.registerModule(new JodaModule());
 			Activity activity = mapper.convertValue(json, Activity.class);
-			activity.category = Category.find.byId(json.findValue("categoryId").asLong());
+			Long newCategoryId = json.findValue("categoryId").asLong();
 			List<Tag> providedTags = activity.tags;
 			Logger.debug("Number of provided tags {}", activity.tags.size());
 			List<Tag> newTags = saveNewTagsAndGetFullListOfTags(providedTags);
 			activity.tags.clear();
 			activity.tags.addAll(newTags);
-
+			Category category = Category.find.byId(newCategoryId);
+			
 			if (id!=null) {
+				Category oldCategory = Category.find.where().eq("activities.id", id).findUnique();
+				if (oldCategory == null || newCategoryId.equals(category.id)) {
+					oldCategory = Category.find.byId(newCategoryId);
+					oldCategory.update();
+				}
 				activity.id = id;
 				activity.update(); 
 			}
 			else {
 				activity.save();
 			}
+			category.activities.add(activity);
+			category.update();
 			activity.saveManyToManyAssociations("tags");
 			return ok();
 		}
