@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
@@ -25,6 +26,8 @@ public class Activity extends Model {
 	@Required
 	@Column(unique = true)
 	public String name;
+	@Lob
+	public String description;
 	@ManyToMany(cascade = CascadeType.ALL)
 	public List<Recommendation> recommendations;
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

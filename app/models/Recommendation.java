@@ -15,6 +15,7 @@ import org.joda.time.Duration;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -31,8 +32,11 @@ public class Recommendation extends Model {
 	@Lob
 	public String description;
 	public Duration duration;
+	@JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
 	public DateTime startTime;
+	@JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
 	public DateTime endTime;
+	public String location;
 	@ManyToMany(cascade = CascadeType.ALL)
 	public List<Image> images;
 	public boolean active;

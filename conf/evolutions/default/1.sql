@@ -6,6 +6,7 @@
 create table activity (
   id                        bigint not null,
   name                      varchar(255),
+  description               clob,
   type_id                   bigint,
   active                    boolean,
   constraint uq_activity_name unique (name),
@@ -32,6 +33,7 @@ create table recommendation (
   description               clob,
   start_time                timestamp,
   end_time                  timestamp,
+  location                  varchar(255),
   active                    boolean,
   constraint uq_recommendation_name unique (name),
   constraint pk_recommendation primary key (id))
