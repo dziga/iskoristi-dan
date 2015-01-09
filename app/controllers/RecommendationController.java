@@ -3,8 +3,6 @@ package controllers;
 import java.io.IOException;
 import java.util.List;
 
-import org.joda.time.Duration;
-
 import models.Activity;
 import models.Image;
 import models.Recommendation;
@@ -89,14 +87,13 @@ public class RecommendationController extends Controller {
 			ObjectMapper mapper = new ObjectMapper();
 			mapper.registerModule(new JodaModule());
 			Recommendation recommendation = mapper.convertValue(json, Recommendation.class);
-			Long newCategoryId = json.findValue("categoryId").asLong();
-			Activity activity = Activity.find.byId(newCategoryId);
-			recommendation.duration = new Duration(recommendation.startTime, recommendation.endTime);
+			Long newActivityId = json.findValue("activityId").asLong();
+			Activity activity = Activity.find.byId(newActivityId);
 			
 			if (id!=null) {
 				Activity oldActivity = Activity.find.where().eq("activities.id", id).findUnique();
-				if (oldActivity == null || newCategoryId.equals(activity.id)) {
-					oldActivity = Activity.find.byId(newCategoryId);
+				if (oldActivity == null || newActivityId.equals(activity.id)) {
+					oldActivity = Activity.find.byId(newActivityId);
 					oldActivity.update();
 				}
 				recommendation.id = id;
@@ -107,7 +104,6 @@ public class RecommendationController extends Controller {
 			}
 			activity.recommendations.add(recommendation);
 			activity.update();
-			recommendation.saveManyToManyAssociations("tags");
 			return ok();
 		}
 	}
