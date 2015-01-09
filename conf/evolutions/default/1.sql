@@ -6,6 +6,7 @@
 create table activity (
   id                        bigint auto_increment not null,
   name                      varchar(255),
+  description               clob,
   type_id                   bigint,
   active                    tinyint(1) default 0,
   constraint uq_activity_name unique (name),
@@ -29,10 +30,11 @@ create table image (
 create table recommendation (
   id                        bigint auto_increment not null,
   name                      varchar(255),
-  description               longtext,
-  start_time                datetime,
-  end_time                  datetime,
-  active                    tinyint(1) default 0,
+  description               clob,
+  start_time                timestamp,
+  end_time                  timestamp,
+  location                  varchar(255),
+  active                    boolean,
   constraint uq_recommendation_name unique (name),
   constraint pk_recommendation primary key (id))
 ;

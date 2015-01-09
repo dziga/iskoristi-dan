@@ -16,6 +16,8 @@ import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.joda.ser.DateTimeSerializer;
 
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -30,9 +32,11 @@ public class Recommendation extends Model {
 	public String name;
 	@Lob
 	public String description;
-	public Duration duration;
+	@JsonSerialize(using=DateTimeSerializer.class)
 	public DateTime startTime;
+	@JsonSerialize(using=DateTimeSerializer.class)
 	public DateTime endTime;
+	public String location;
 	@ManyToMany(cascade = CascadeType.ALL)
 	public List<Image> images;
 	public boolean active;
