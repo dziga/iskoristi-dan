@@ -1,5 +1,5 @@
 (function(){
-	var app = angular.module('ispuni-dan', [ ]);
+	var app = angular.module('ispuni-dan', ['ui.bootstrap']);
 	var activity = [{name:'yeah'}, {name:'dah'}];
 	
 	app.controller('MainController', ['$http', function($http){
