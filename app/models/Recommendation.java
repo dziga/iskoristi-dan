@@ -10,7 +10,6 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 
 import org.joda.time.DateTime;
-import org.joda.time.Duration;
 
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
